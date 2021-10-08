@@ -3,6 +3,7 @@ html {
 }
 table {
   margin: 0 auto;
+  width: 100%;
 }
 tr {
   display: flex;
@@ -10,20 +11,38 @@ tr {
   display: flex;
 }
 td {
-  width: 25%;
+  min-width: 16.67%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+thead tr {
+  background: #ffc107;
+  border-radius: 4px;
+  margin: 5px 0;
 }
 thead td {
-  background: chocolate;
-  color: white;
+  border: 1px solid white;
+  color: black;
   text-align: center;
 }
 
-tbody td {
-  border: 1px solid black;
+tbody tr {
+  border-bottom: 1px solid lightgray;
+  padding: 5px;
 }
 form {
   margin: 20px 0;
+  width: 30%;
+}
+button {
+  color: white;
 }
 .container {
   width: 80%;
+}
+.separator {
+  display: flex;
+  justify-content: center;
+  padding: 30px;
 }

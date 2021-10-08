@@ -9,16 +9,17 @@
   <body>
     <div class="container">
       <form>
-        <fieldset>
-          <legend>add new note</legend>
-          <input type="text" placeholder="category"/>
-          <input type="text" placeholder="content"/>
-          <input type="submit" value="add"></input>
-        </fieldset>
+          <select class="form-select">
+              <option disabled>choose category...</option>
+          </select>
+          <input type="text" placeholder="content" class="form-control"/>
+          <button class="btn btn-success">create note</button>
       </form>
+
       <table>
         <thead>
           <tr>
+            <td>name</td>
             <td>created</td>
             <td>category</td>
             <td>content</td>
@@ -34,6 +35,12 @@
             <td>td</td>
           </tr>
         </tbody>
+      </table>
+      <div class="separator">
+        <button id="archive-btn" class="btn btn-warning">OPEN ARCHIVE</button>
+      </div>
+      <table id="archive-table">
+          <tbody></tbody>
       </table>
     </div>
   </body>

@@ -1,11 +1,10 @@
 export default class {
-  constructor(category, content) {
-    this.id = Date.now();
+  constructor(category, content, name = 'default name') {
+    this.name = name
     this.category = category;
     this.content = content;
     this.created = new Date();
     this.archived = false;
-    console.log(this)
   }
 
   datesMentioned() {
@@ -13,10 +12,10 @@ export default class {
   }
 
   toArray() {
-    return [this.created, this.category, this.content, this.datesMentioned(), this.archived];
+    return [this.name, this.created, this.category, this.content, this.datesMentioned()];
   }
 
-  archivedToggle() {
+  archive() {
     this.archived = !this.archived;
   }
 }

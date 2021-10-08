@@ -4,12 +4,27 @@ import Note from "./models/Note";
 
 const tbody = document.getElementsByTagName("tbody")[0];
 const form = document.getElementsByTagName("form")[0];
-const [categoryInput, contentInput, createBtn] = form.getElementsByTagName("input")
+const archiveBtn = document.getElementById("archive-btn");
+const archiveTbody = document
+  .getElementById("archive-table")
+  .getElementsByTagName("tbody")[0];
+let showArchive = false;
+
+const [categoryInput, disabled, contentInput, createBtn] =
+  form.getElementsByTagName("*");
+
 createBtn.addEventListener("click", (e) => {
-  e.preventDefault()
-  notes = [...notes, new Note(categoryInput.value, contentInput.value)]
-  contentInput.value = categoryInput.value = ''
-  render()
+  e.preventDefault();
+  notes = [...notes, new Note(categoryInput.value, contentInput.value)];
+  contentInput.value = categoryInput.value = "";
+  render();
+});
+
+archiveBtn.addEventListener("click", () => {
+  showArchive = !showArchive
+  if(showArchive)
+    renderArchive(getArchived(), archiveTbody)
+  else renderArchive([], archiveTbody)
 })
 
 let notes = [
@@ -22,60 +37,124 @@ let notes = [
   new Note("idea", "find a summer job 1/06/2022"),
 ];
 
+const categories = {
+  TASK: "task",
+  RANDOM_THOUGHT: "random thougnt",
+  IDEA: "idea",
+};
+
 const actions = {
   DELETE: "delete",
   ARCHIVE: "archive",
+  UNARCHIVE: "unarchive",
   EDIT: "edit",
 };
 
 function Main() {
+  Object.keys(categories).forEach((key) => {
+    categoryInput.append(
+      createElem("option", [["value", categories[key]]], "", categories[key])
+    );
+  });
   render();
 }
 
 function render() {
   tbody.innerHTML = "";
   notes
-    // .filter((el) => el.archived == false)
+    .filter((el) => el.archived == false)
     .forEach((note) => {
-      const tr = document.createElement("tr");
+      const tr = createElem("tr");
       note.toArray().forEach((el) => {
-        const td = document.createElement("td");
-        td.innerText = el;
-        tr.append(td);
+        tr.append(createElem("td", [], el));
       });
-      const actionsTd = document.createElement("td");
-      actionsTd.append(createButton(note.id, actions.DELETE));
-      actionsTd.append(createButton(note.id, actions.ARCHIVE));
+      const actionsTd = createElem("td");
+      actionsTd.append(createButton(note.content, actions.DELETE));
+      actionsTd.append(createButton(note.content, actions.ARCHIVE));
+      actionsTd.append(createButton(note.content, actions.EDIT));
       tr.append(actionsTd);
       tbody.append(tr);
     });
+  if (showArchive) renderArchive(getArchived(), archiveTbody);
 }
 
-function createButton(noteId, action) {
-  const button = document.createElement("button");
+function renderArchive(notes, tbody) {
+  tbody.innerHTML = "";
+  notes.forEach((note) => {
+    const tr = createElem("tr");
+    note.toArray().forEach((el) => {
+      tr.append(createElem("td", [], el));
+    });
+    const actionsTd = createElem("td");
+    actionsTd.append(createButton(note.content, actions.DELETE));
+    actionsTd.append(createButton(note.content, actions.ARCHIVE));
+    actionsTd.append(createButton(note.content, actions.EDIT));
+    tr.append(actionsTd);
+    tbody.append(tr);
+  });
+}
+
+function createButton(noteContent, action) {
+  const button = createElem("button");
+  button.className = "btn";
   button.innerText = action;
+  let callback = null;
 
   switch (action) {
     case actions.DELETE:
-      button.addEventListener("click", () => {
-        notes = notes.filter((note) => note.id != noteId);
-        render();
-      });
+      callback = () => deleteNote(noteContent);
+      button.className += " btn-danger";
       break;
     case actions.ARCHIVE:
-      button.addEventListener("click", () => {
-        notes = notes.map((note) => {
-          if (note.id === noteId) {
-            note.archivedToggle();
-          }
-          return note;
-        });
-        render();
-      });
+      callback = () => archiveNote(noteContent);
+      button.className += " btn-warning";
+      break;
+    case actions.EDIT:
+      callback = () => editNote(noteContent);
+      button.className += " btn-secondary";
       break;
   }
+  button.addEventListener("click", callback);
 
   return button;
 }
+
+const deleteNote = (noteContent) => {
+  notes = notes.filter((note) => note.content != noteContent);
+  render();
+};
+const archiveNote = (noteContent) => {
+  notes = notes.map((note) => {
+    if (note.content === noteContent) {
+      note.archive();
+    }
+    return note;
+  });
+  render();
+};
+const editNote = (noteContent) => {
+  const note = notes.find((note) => note.content === noteContent);
+  contentInput.value = note.content;
+  categoryInput.value = note.category;
+  deleteNote(noteContent);
+  render();
+};
+
+const createElem = (
+  tagName,
+  attributes = [],
+  innerText = "",
+  innerHTML = ""
+) => {
+  const elem = document.createElement(tagName);
+  attributes.forEach((attr) => elem.setAttribute(...attr));
+  if (innerText) elem.innerText = innerText;
+  if (innerHTML) elem.innerHTML = innerHTML;
+  return elem;
+};
+
+const getArchived = () => {
+  return notes.filter((n) => n.archived === true);
+};
 
 Main();
