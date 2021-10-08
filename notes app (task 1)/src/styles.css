@@ -2,7 +2,6 @@ html {
   font-size: 14px;
 }
 table {
-  width: 80%;
   margin: 0 auto;
 }
 tr {
@@ -21,4 +20,10 @@ thead td {
 
 tbody td {
   border: 1px solid black;
+}
+form {
+  margin: 20px 0;
+}
+.container {
+  width: 80%;
 }

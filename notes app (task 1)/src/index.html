@@ -1,30 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>notes app</title>
-</head>
-<body>
-    <h1>welcome to the notes app!</h1>
-    <table>
+  </head>
+  <body>
+    <div class="container">
+      <form>
+        <fieldset>
+          <legend>add new note</legend>
+          <input type="text" placeholder="category"/>
+          <input type="text" placeholder="content"/>
+          <input type="submit" value="add"></input>
+        </fieldset>
+      </form>
+      <table>
         <thead>
-            <tr>
-                <td>created</td>
-                <td>category</td>
-                <td>content</td>
-                <td>dates</td>
-            </tr>
+          <tr>
+            <td>created</td>
+            <td>category</td>
+            <td>content</td>
+            <td>dates</td>
+            <td>...</td>
+          </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>td</td>
-                <td>td</td>
-                <td>td</td>
-                <td>td</td>
-            </tr>
+          <tr>
+            <td>td</td>
+            <td>td</td>
+            <td>td</td>
+            <td>td</td>
+          </tr>
         </tbody>
-    </table>
-</body>
+      </table>
+    </div>
+  </body>
 </html>
