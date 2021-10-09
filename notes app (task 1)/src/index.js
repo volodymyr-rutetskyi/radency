@@ -7,36 +7,23 @@ import initialNotes from "./initialNotes";
 let notes = initialNotes;
 
 const tbody = document.getElementsByTagName("tbody")[0];
-const form = document.getElementsByTagName("form")[0];
 const archiveBtn = document.getElementById("archive-btn");
 const archiveTbody = document
   .getElementById("archive-table")
   .getElementsByTagName("tbody")[0];
 let showArchive = false;
 
-const [categoryInput, disabled, contentInput, createBtn] =
-  form.getElementsByTagName("*");
-
-createBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-  notes = [...notes, new Note(categoryInput.value, contentInput.value)];
-  contentInput.value = categoryInput.value = "";
-  render();
-});
-
 archiveBtn.addEventListener("click", () => {
   if (showArchive === true) {
     showArchive = false;
     archiveBtn.innerText = "OPEN ARCHIVE";
-    renderArchive([], archiveTbody);
-  } else {
+    render();
+  } else if (showArchive === false) {
     showArchive = true;
     archiveBtn.innerText = "CLOSE ARCHIVE";
-    renderArchive(getArchived(), archiveTbody);
+    render();
   }
 });
-
-
 
 const categories = {
   TASK: "task",
@@ -45,12 +32,46 @@ const categories = {
 };
 
 const actions = {
-  DELETE: (noteId) => {
-    notes = notes.filter((note) => note.id != noteId);
+  DELETE: (id) => {
+    notes = notes.filter((note) => note.id != id);
     render();
   },
-  ARCHIVE: () => {},
-  EDIT: () => {},
+  ARCHIVE: (id) => {
+    notes.find((note) => note.id === id).archive();
+    render();
+  },
+  UNARCHIVE: (id) => {
+    notes.find((note) => note.id === id).unarchive();
+    render();
+  },
+  EDIT: (id) => {
+    notes = notes.map((note) => {
+      if (note.id === id) {
+        return new Note(note.name, note.category, note.content, true);
+      }
+      return note;
+    });
+    render();
+  },
+  SAVE: (id) => {
+    const note = notes.find((note) => note.id === id);
+    if (notes.indexOf(note) === 0) {
+      notes = [
+        new Note(...note.toArray().splice(0, 3), true, "to be created..."),
+        ...notes,
+      ];
+    }
+    const [name, category, content] = document.getElementsByClassName(
+      `input.${note.id}`
+    );
+    notes = notes.map((note) => {
+      if (note.id === id) {
+        return new Note(name.value, category.value, content.value);
+      }
+      return note;
+    });
+    render();
+  },
 };
 
 function Main() {
@@ -58,23 +79,55 @@ function Main() {
 }
 
 function render() {
+  console.log("----------------------");
   tbody.innerHTML = "";
-  notes.forEach((note) => {
-    tbody.append(
-      note.toElement([
-        Button("delete", actions.DELETE.bind(null, note.id), "btn btn-danger"),
-      ])
-    );
-  });
+  archiveTbody.innerHTML = "";
+  notes
+    .filter((note) => note.archived === false)
+    .forEach((note) => {
+      if (!note.beingEdited) {
+        tbody.append(
+          note.toElement([
+            Button(
+              "delete",
+              actions.DELETE.bind(null, note.id),
+              "btn btn-danger"
+            ),
+            Button(
+              "archive",
+              actions.ARCHIVE.bind(null, note.id),
+              "btn btn-warning"
+            ),
+            Button("edit", actions.EDIT.bind(null, note.id), "btn btn-info"),
+          ])
+        );
+      } else
+        tbody.append(
+          note.toElement([
+            Button("save", actions.SAVE.bind(null, note.id), "btn btn-success"),
+          ])
+        );
+    });
+
+  if (showArchive) {
+    notes
+      .filter((note) => note.archived === true)
+      .forEach((note) => {
+        archiveTbody.append(
+          note.toElement([
+            Button(
+              "unarchive",
+              actions.UNARCHIVE.bind(null, note.id),
+              "btn btn-success"
+            ),
+          ])
+        );
+      });
+  }
 }
 
 const getArchived = () => {
   return notes.filter((n) => n.archived === true);
 };
-
-function editNotes(logic) {
-  logic();
-  render();
-}
 
 Main();
