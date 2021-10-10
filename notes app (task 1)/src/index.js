@@ -3,10 +3,18 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Note from "./components/Note";
 import Button from "./components/Button";
 import initialNotes from "./initialNotes";
+import categories from "./categories";
 
 let notes = initialNotes;
 
 const tbody = document.getElementsByTagName("tbody")[0];
+const summaryTBody = document
+  .getElementById("summary-table")
+  .getElementsByTagName("tbody")[0];
+const summaryTHead = document
+  .getElementById("summary-table")
+  .getElementsByTagName("thead")[0];
+
 const archiveBtn = document.getElementById("archive-btn");
 const archiveTbody = document
   .getElementById("archive-table")
@@ -24,12 +32,6 @@ archiveBtn.addEventListener("click", () => {
     render();
   }
 });
-
-const categories = {
-  TASK: "task",
-  RANDOM_THOUGHT: "random thougnt",
-  IDEA: "idea",
-};
 
 const actions = {
   DELETE: (id) => {
@@ -79,37 +81,64 @@ function Main() {
 }
 
 function render() {
-  console.log("----------------------");
   tbody.innerHTML = "";
   archiveTbody.innerHTML = "";
-  notes
-    .filter((note) => note.archived === false)
-    .forEach((note) => {
-      if (!note.beingEdited) {
-        tbody.append(
-          note.toElement([
-            Button(
-              "delete",
-              actions.DELETE.bind(null, note.id),
-              "btn btn-danger"
-            ),
-            Button(
-              "archive",
-              actions.ARCHIVE.bind(null, note.id),
-              "btn btn-warning"
-            ),
-            Button("edit", actions.EDIT.bind(null, note.id), "btn btn-info"),
-          ])
-        );
-      } else
-        tbody.append(
-          note.toElement([
-            Button("save", actions.SAVE.bind(null, note.id), "btn btn-success"),
-          ])
-        );
-    });
+  summaryTBody.innerHTML = "";
+  if (!showArchive) {
+    notes
+      .filter((note) => note.archived === false)
+      .forEach((note) => {
+        if (!note.beingEdited) {
+          tbody.append(
+            note.toElement([
+              Button(
+                "delete",
+                actions.DELETE.bind(null, note.id),
+                "btn btn-danger"
+              ),
+              Button(
+                "archive",
+                actions.ARCHIVE.bind(null, note.id),
+                "btn btn-warning"
+              ),
+              Button("edit", actions.EDIT.bind(null, note.id), "btn btn-info"),
+            ])
+          );
+        } else
+          tbody.append(
+            note.toElement([
+              Button(
+                "save",
+                actions.SAVE.bind(null, note.id),
+                "btn btn-success"
+              ),
+            ])
+          );
+      });
 
-  if (showArchive) {
+    categories.forEach((cat, idx, arr) => {
+      summaryTHead.className = ""
+      const tr = document.createElement("tr");
+      const tds = [];
+      tds[0] = cat;
+      tds[1] = notes.reduce((counter, note) => {
+        if (note.category === cat && !note.archived) return counter + 1;
+        return counter;
+      }, 0);
+      tds[2] = notes.reduce((counter, note) => {
+        if (note.category === cat && note.archived) return counter + 1;
+        return counter;
+      }, 0);
+      tds.forEach((td) => {
+        const tdTag = document.createElement("td");
+        tdTag.innerHTML = td;
+        tr.append(tdTag);
+      });
+      console.log(summaryTBody);
+      summaryTBody.append(tr);
+    });
+  } else {
+    summaryTHead.className = "thead-hidden"
     notes
       .filter((note) => note.archived === true)
       .forEach((note) => {

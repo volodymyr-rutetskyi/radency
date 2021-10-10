@@ -30,7 +30,15 @@ thead td {
 tbody tr {
   border-bottom: 1px solid lightgray;
   padding: 5px;
-  min-height: 75px;
+}
+table:first-of-type tr:first-of-type {
+  background: #ffc107;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+tbody tr:first-of-type > * {
+  width: 16.67%;
 }
 .container {
   width: 80%;
@@ -45,4 +53,10 @@ tbody tr {
 }
 .btn {
   margin: 1px;
+}
+#summary-table td {
+  width: 33.34%;
+}
+.thead-hidden {
+  display: none;
 }

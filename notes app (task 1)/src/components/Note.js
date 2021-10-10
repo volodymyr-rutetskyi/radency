@@ -1,10 +1,12 @@
+import categories from '../categories'
+
 export default class {
   constructor(
     name,
     category,
     content,
     beingEdited = false,
-    created = new Date().toISOString().substring(0, 10)
+    created = new Date().toISOString().substring(0, 10),
   ) {
     this.id = Math.floor(Math.random() * Date.now());
     this.name = name;
@@ -35,11 +37,23 @@ export default class {
     const row = document.createElement("tr");
     this.toArray().forEach((el, idx, arr) => {
       if (idx < 3 && this.beingEdited) {
-        const input = document.createElement("input");
-        input.setAttribute("type", "text");
-        input.value = el;
-        input.setAttribute("class", `input.${this.id}`);
-        row.append(input);
+        if(idx === 1) {
+          const select = document.createElement("select")
+          categories.forEach(cat => {
+            const option = document.createElement("option")
+            option.value = cat
+            option.innerHTML = cat
+            select.append(option)
+          })
+          select.setAttribute('class', `input.${this.id}`)
+          row.append(select)
+        } else {
+          const input = document.createElement("input");
+          input.setAttribute("type", "text");
+          input.value = el;
+          input.setAttribute("class", `input.${this.id}`);
+          row.append(input);
+        }
       } else {
         const td = document.createElement("td");
         td.innerHTML = el;
