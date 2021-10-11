@@ -3,11 +3,13 @@ import { connect } from "react-redux";
 import { deleteNote } from "../../redux/notes/noteActions";
 import Row from "../row";
 import './table.css'
+import '../../App.css'
 
 const Table = ({ notes, deleteNote }) => {
   const tableHeadElements = ['name', 'created', 'category', 'content', 'archived', 'dates', '...']
+  
   return (
-    <div className="table">
+    <div className={'table'}>
       <div className="tableHead">
         {tableHeadElements.map(el => <div key={el}>{el}</div>)}
       </div>

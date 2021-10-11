@@ -1,4 +1,10 @@
-import { CREATE_NOTE, DELETE_NOTE, ARCHIVE_NOTE, UNARCHIVE_NOTE } from "../types";
+import {
+  CREATE_NOTE,
+  DELETE_NOTE,
+  ARCHIVE_NOTE,
+  UNARCHIVE_NOTE,
+  EDIT_NOTE,
+} from "../types";
 
 export function deleteNote(id) {
   return {
@@ -33,5 +39,12 @@ export function unarchiveNote(id) {
     payload: {
       id,
     },
+  };
+}
+
+export function editNote(note) {
+  return {
+    type: EDIT_NOTE,
+    payload: { ...note },
   };
 }
