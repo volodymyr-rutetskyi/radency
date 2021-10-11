@@ -1,0 +1,10 @@
+.noteForm {
+    width: 400px;
+    border: 1px solid blue;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+.noteForm>* {
+    margin: 10px 0;
+}

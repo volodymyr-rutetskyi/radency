@@ -20,7 +20,7 @@ const Table = ({ notes, deleteNote }) => {
   );
 };
 
-const mapStateToProps = (state) => ({ notes: state.notes.notes });
+const mapStateToProps = (state) => ({ notes: state.notes.list });
 const mapDistapchToProps = (dispatch) => ({
   deleteNote: (id) => dispatch(deleteNote(id)),
 });
