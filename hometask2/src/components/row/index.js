@@ -5,26 +5,23 @@ import {
   editNote,
   unarchiveNote,
 } from "../../redux/notes/noteActions";
-import ActionButton from "../actionButton.js";
 import NoteForm from "../noteForm";
 import "./row.css";
 
-const Row = ({ note, deleteNote, archiveNote,editNote, unarchiveNote, columnNames }) => {
+const Row = ({
+  note,
+  deleteNote,
+  archiveNote,
+  editNote,
+  unarchiveNote,
+  columns,
+}) => {
   const dates = note.content.match(/\d{1,2}\/\d{1,2}\/\d{4}/g);
   const [noteFormOn, setNoteFormOn] = useState(false);
 
-  const useArchiveBtnProps = (archived) => {
-    return {
-      content: archived ? "unarchive" : "archive",
-      action: archived
-        ? unarchiveNote.bind(null, note.id)
-        : archiveNote.bind(null, note.id),
-    };
-  };
-
   return (
     <div className="row">
-      {columnNames.map(
+      {columns.map(
         (cName, idx) =>
           typeof note[cName] !== "undefined" && (
             <div key={`${note.id}-${idx}`} className="cell">
@@ -34,15 +31,23 @@ const Row = ({ note, deleteNote, archiveNote,editNote, unarchiveNote, columnName
       )}
       <div className="cell">{dates}</div>
       <div className="cell">
-        <button onClick={() => deleteNote(note.id)}>delete</button>
-        <ActionButton {...useArchiveBtnProps(note.archived)} />
-        <button
-          onClick={() => {
-            setNoteFormOn(true);
-          }}
-        >
-          edit
-        </button>
+        {!note.archived ? (
+          <div>
+            <button onClick={() => deleteNote(note.id)}>delete</button>
+            <button onClick={() => archiveNote(note.id)}>archive</button>
+            <button
+              onClick={() => {
+                setNoteFormOn(true);
+              }}
+            >
+              edit
+            </button>
+          </div>
+        ) : (
+          <div>
+            <button onClick={() => unarchiveNote(note.id)}>unarchive</button>
+          </div>
+        )}
       </div>
       {noteFormOn && (
         <NoteForm

@@ -1,0 +1,27 @@
+.separator {
+  padding: 25px;
+  display: flex;
+  justify-content: center;
+}
+.btn {
+  border-top: 1px solid darkcyan;
+  border-bottom: 1px solid darkcyan;
+  border-left: 2px solid darkcyan;
+  border-right: 2px solid darkcyan;
+  border-radius: 5px;
+  padding: 5px 15px;
+  font-size: 1.2rem;
+  color: darkcyan
+}
+.separator > button:hover {
+    background: darkcyan;
+    color: white;
+}
+nav {
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 25px;
+}
+nav a {
+    text-decoration: none;
+}
