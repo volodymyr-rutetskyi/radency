@@ -5,7 +5,7 @@ import Row from "../row";
 import './table.css'
 
 const Table = ({ notes, deleteNote }) => {
-  const tableHeadElements = ['name', 'created', 'category', 'content', 'dates', '...']
+  const tableHeadElements = ['name', 'created', 'category', 'content', 'archived', 'dates', '...']
   return (
     <div className="table">
       <div className="tableHead">
