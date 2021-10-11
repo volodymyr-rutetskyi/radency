@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { createNote } from "../../redux/notes/noteActions";
 import "./noteForm.css";
+import '../../App.css'
 
 const NoteForm = ({ handleNote, title, closeForm, note = {} }) => {
   const categories = ["task", "idea", "random thought"];
@@ -54,7 +55,7 @@ const NoteForm = ({ handleNote, title, closeForm, note = {} }) => {
           value={newNote.content}
           onChange={changeInputHandler}
         ></textarea>
-        <button onClick={saveNote}>save</button>
+        <button className="btn" onClick={saveNote}>save</button>
       </form>
     </div>
   );

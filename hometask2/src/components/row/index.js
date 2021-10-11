@@ -29,7 +29,14 @@ const Row = ({
             </div>
           )
       )}
-      <div className="cell">{dates}</div>
+      <div className="cell">
+        {dates&&dates.map((d, idx, arr) => (
+          <div>
+            <span>{d}</span>
+            <br/>
+          </div>
+        ))}
+      </div>
       <div className="cell">
         {!note.archived ? (
           <div>
