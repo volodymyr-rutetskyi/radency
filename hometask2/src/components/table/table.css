@@ -1,0 +1,8 @@
+.tableHead {
+    display: flex;
+}
+.tableHead>div {
+    width: 16.67%;
+    border: 1px solid black;
+    text-align: center;
+}

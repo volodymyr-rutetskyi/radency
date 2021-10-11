@@ -1,0 +1,8 @@
+.row {
+    display: flex;
+}
+
+.cell {
+    width: 16.67%;
+    border: 1px solid black;
+}
