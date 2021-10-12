@@ -18,13 +18,23 @@ module.exports.createNote = (note) => {
     id: Math.floor(Math.random() * Date.now()),
     created: new Date().toISOString().substring(10),
     archived: false,
-    ...note
+    ...note,
   };
-  notes = [newNote,...notes]
-  return newNote
+  notes = [newNote, ...notes];
+  return newNote;
 };
 
 module.exports.editNote = (id, newProps) => {
-    notes = notes.map(note => note.id!=id?note:{...note, ...newProps})
-    return module.exports.getNote(id)
-}
+  notes = notes.map((note) =>
+    note.id != id ? note : { ...note, ...newProps }
+  );
+  return module.exports.getNote(id);
+};
+
+module.exports.archiveNote = (id) => {
+  return module.exports.editNote(id, { archived: true });
+};
+
+module.exports.unArchiveNote = (id) => {
+  return module.exports.editNote(id, { archived: false });
+};

@@ -6,6 +6,8 @@ const {
   deleteNote,
   createNote,
   editNote,
+  archiveNote,
+  unArchiveNote,
 } = require("../repositories/notes/actions");
 const { getFullSummary } = require("../helpers/summary");
 const { createSchema } = require("../models/noteSchema");
@@ -42,6 +44,14 @@ router.patch("/:id", (req, res) => {
       res.send(editNote(req.params.id, req.body));
     })
     .catch((e) => res.send(e));
+});
+
+router.patch("/archive/:id", (req, res) => {
+  res.send(archiveNote(req.params.id))
+});
+
+router.patch("/unarchive/:id", (req, res) => {
+  res.send(unArchiveNote(req.params.id))
 });
 
 module.exports = router;
