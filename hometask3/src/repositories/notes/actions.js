@@ -22,3 +22,8 @@ module.exports.createNote = (note) => {
   notes = [{...note, ...objProps},...notes]
   return notes
 };
+
+module.exports.editNote = (id, newProps) => {
+    notes = notes.map(note => note.id!=id?note:{...note, ...newProps})
+    return module.exports.getNote(id)
+}
