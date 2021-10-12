@@ -1,0 +1,1 @@
+module.exports.categories = ['task', 'random thought', 'idea']

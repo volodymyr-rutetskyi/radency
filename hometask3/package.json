@@ -1,0 +1,19 @@
+{
+  "name": "hometask3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "yup": "^0.32.10"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  }
+}
