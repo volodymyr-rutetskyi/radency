@@ -14,13 +14,14 @@ module.exports.deleteNote = (id) => {
 };
 
 module.exports.createNote = (note) => {
-  const objProps = {
+  const newNote = {
     id: Math.floor(Math.random() * Date.now()),
     created: new Date().toISOString().substring(10),
     archived: false,
+    ...note
   };
-  notes = [{...note, ...objProps},...notes]
-  return notes
+  notes = [newNote,...notes]
+  return newNote
 };
 
 module.exports.editNote = (id, newProps) => {
