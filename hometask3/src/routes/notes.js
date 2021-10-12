@@ -30,14 +30,18 @@ router.delete("/:id", (req, res) => {
 router.post("/", (req, res) => {
   noteSchema
     .validate(req.body)
-    .then(() => {
-      res.status(201).send(createNote(req.body));
-    })
-    .catch((err) => res.status(400).send(err));
+    .then((note) => res.send(note))
+    .catch((e) => res.send(e));
 });
 
 router.patch("/:id", (req, res) => {
-  res.send(editNote(req.params.id, req.body));
+  const note = getNote(req.params.id);
+  noteSchema
+    .validate({ ...note, ...req.body })
+    .then(() => {
+      res.send(editNote(req.params.id, req.body));
+    })
+    .catch((e) => res.send(e));
 });
 
 module.exports = router;
