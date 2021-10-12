@@ -1,0 +1,11 @@
+.row {
+  display: flex;
+  border-bottom: 1px solid lightgray;
+}
+
+.cell {
+  width: 16.67%;
+  padding: 5px 0;
+  text-align: center;
+  overflow: hidden;
+}

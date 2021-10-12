@@ -1,0 +1,12 @@
+.tableHead {
+  display: flex;
+  background: darkcyan;
+  color: white;
+  border-radius: 10px;
+}
+.tableHead > div {
+  padding: 5px;
+  border: 1px solid white;
+  width: 16.67%;
+  text-align: center;
+}
